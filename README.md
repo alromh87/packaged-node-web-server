@@ -1,6 +1,5 @@
 Packaged Node Web Server
 ====================
-Copyright (c) 2013 frog design inc. / Robert Tuttle <robert.tuttle@frogdesign.com>
 
 A portable HTTP web server using Node.js for light HTML5 development and/or packaging for quick start and launch directly to a default browser
 
@@ -12,30 +11,30 @@ Usage
 
 - Configuration options are located at the top of the server/node-http-server.js file
 
-	// ============================================================
-	// CONFIGURATION OPTIONS
-	// ============================================================
-
-	var httpHostName			= "localhost";
-	var httpPort				= 8888;
-	var webRootDirName			= "web";
-	var defaultDocument			= "default.htm";
-	var preventCaching			= true;
-	var launchDefaultBrowser	= true;
-
-	// TODO: add other MIME content type entries as needed for your specific web site or app
-	var contentTypes = 
-	{
-		".htm" : "text/html",
-		".css" : "text/css",
-		".png" : "image/png",
-		".jpg" : "image/jpg",
-		".gif" : "image/gif",
-		".js"  : "text/javascript",
-		".json": "application/json"
-	};
-
-	// ============================================================
+> // ============================================================
+> // CONFIGURATION OPTIONS
+> // ============================================================
+> 
+> var httpHostName			= "localhost";
+> var httpPort				= 8888;
+> var webRootDirName		= "web";
+> var defaultDocument		= "default.htm";
+> var preventCaching		= true;
+> var launchDefaultBrowser	= true;
+> 
+> // TODO: add other MIME content type entries as needed for your specific web site or app
+> var contentTypes = 
+> {
+> 	".htm" : "text/html",
+> 	".css" : "text/css",
+> 	".png" : "image/png",
+> 	".jpg" : "image/jpg",
+> 	".gif" : "image/gif",
+> 	".js"  : "text/javascript",
+> 	".json": "application/json"
+> };
+> 
+> // ============================================================
 
 - The server directory holds the Node.js script along with the platform binaries (version 0.10.10 as of this commit). The web directory is where you place the root of your web site or app to be served up.
 
