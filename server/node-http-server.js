@@ -29,8 +29,6 @@ var path = require("path")
 var fs = require("fs")
 var exec = require('child_process').exec
 
-var port = process.argv[2] || httpPort;
-
 var webroot = path.resolve(process.cwd(), ".." + path.sep + webRootDirName);
 
 http.createServer(function(request, response) 
@@ -79,13 +77,13 @@ http.createServer(function(request, response)
 			response.end();
 		});
 	});
-}).listen(parseInt(port, 10));
+}).listen(parseInt(httpPort, 10));
 
-console.log("Local web server started and listening on " + httpHostName + " at port " + port);
+console.log("Local web server started and listening on " + httpHostName + " at port " + httpPort);
 
 if (launchDefaultBrowser)
 {
-	var launchURL = "http://" + httpHostName + ":" + port + "/";
+	var launchURL = "http://" + httpHostName + ":" + httpPort + "/";
 	var execParam = ' "' + launchURL.replace(/"/, '\\\"') + '"';
 
 	switch (process.platform) 
