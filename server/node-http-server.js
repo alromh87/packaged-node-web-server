@@ -14,11 +14,18 @@ var contentTypes =
 {
 	".htm" : "text/html",
 	".css" : "text/css",
+	".js"  : "text/javascript",
 	".png" : "image/png",
 	".jpg" : "image/jpg",
 	".gif" : "image/gif",
-	".js"  : "text/javascript",
-	".json": "application/json"
+	".svg" : "image/svg+xml",
+	".cur" : "image/vnd.microsoft.icon",
+	".json": "application/json",
+	".ttf" : "font/truetype",
+	".otf" : "font/opentype",
+	".eot" : "application/vnd.ms-fontobject",
+	".woff" : "application/x-font-woff",
+	".mp4" : "video/mp4"
 };
 
 // ============================================================
