@@ -3,7 +3,7 @@ Packaged Node Web Server
 
 A portable HTTP web server using Node.js for light HTML5 development and/or packaging for quick start and launch directly to a default browser
 
-https://github.com/frog-opensource/packaged-node-web-server (frog_eXPeriMeNTaL)
+https://github.com/frog-opensource/packaged-node-web-server (frog-opensource)
 
 
 Usage
