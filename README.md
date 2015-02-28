@@ -9,7 +9,7 @@ https://github.com/frog/packaged-node-web-server
 Usage
 --------------------
 
-- Configuration options are located at the top of the server/node-http-server.js file
+- Configuration options are located at the top of the server/server.js file
 
 		var hostName			= "localhost";
 		var port				= 80;
@@ -31,7 +31,9 @@ Usage
             ...
         };
 
-- The server directory holds the Node.js script along with the platform binaries and any required node_modules resources. The client directory is where you place the root of your web site or app to be served up.
+- The server directory holds the Node.js script along with the platform binaries and any required node_modules resources you npm or manually pull in.
+
+- The client directory is where you place the root of your static web site or app to be served up.
 
 - Use the launcher files at the root appropriate for your platform (Windows, Mac OS X, or Linux). Take care to respect line endings in the text file appropriate for your target platform (CRLF for Windows, LF for Mac OS X/Linux). Additionally, when copying or unpacking on Mac OS X or Linux, you will need to give the binary and scripts executable permissions (chmod +x).
   - Windows: double-click the launch-windows.bat
