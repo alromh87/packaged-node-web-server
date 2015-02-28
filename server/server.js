@@ -2,12 +2,12 @@
 // CONFIGURATION OPTIONS
 // ============================================================
 
-var hostName			= "localhost";
-var port				= 80;
-var webroot				= "client";
-var defaultDocument		= "default.htm";
-var isCachingAllowed	= false;
-var isBrowserLaunched	= true;
+var hostName 			= "localhost";
+var port 				= 80;
+var webroot 			= "client";
+var defaultDocument 	= "default.htm";
+var isCachingAllowed 	= false;
+var isBrowserLaunched 	= true;
 
 // TODO: add other MIME content type entries as needed for your specific web site or app
 var contentTypes = 
