@@ -1,37 +1,38 @@
 Packaged Node Web Server
 ====================
 
-A portable HTTP web server using Node.js for light HTML5 development and/or packaging for quick start and launch directly to a default browser
+A portable HTTP web server using Node.js for light HTML5 development (+/- WebSockets) and packaging for quick start with optional launch directly to a default browser
 
 https://github.com/frog/packaged-node-web-server
-
 
 Usage
 --------------------
 
-- Configuration options are located at the top of the server/server.js file
+- Configuration options are located in the server/config.js module:
 
-		var hostName			= "localhost";
-		var port				= 80;
-		var webroot				= "client";
-		var defaultDocument		= "default.htm";
-		var isCachingAllowed	= false;
-		var isBrowserLaunched	= true;
+		httpServerPort: 80,
+		webRootDirName: "client",
+		defaultDocument: "default.htm",
+		isCachingDisabled: true,
+		doBrowserLaunch: true,
+		contentTypes: // TODO: add other MIME content type entries as needed for your specific web site or app
+		{
+			".htm" : "text/html",
+			".css" : "text/css",
+			".js" : "text/javascript",
+			".png" : "image/png",
+			".jpg" : "image/jpg",
+			".gif" : "image/gif",
+			".svg" : "image/svg+xml",
+			".json" : "application/json",
+			".ttf" : "font/truetype",
+			".otf" : "font/opentype",
+			".woff" : "application/x-font-woff",
+			".mp3" : "audio/mpeg",
+			".mp4" : "video/mp4"
+		}
 
-        // TODO: add other MIME content type entries as needed for your specific web site or app
-        var contentTypes = 
-        {
-            ".htm" : "text/html",
-            ".css" : "text/css",
-            ".png" : "image/png",
-            ".jpg" : "image/jpg",
-            ".gif" : "image/gif",
-            ".js"  : "text/javascript",
-            ".json": "application/json",
-            ...
-        };
-
-- The server directory holds the Node.js script along with the platform binaries and any required node_modules resources you npm or manually pull in.
+- The server directory holds the Node.js script modules along with the platform binaries and any required node_modules resources you npm or manually pull in.
 
 - The client directory is where you place the root of your static web site or app to be served up.
 

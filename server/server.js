@@ -1,94 +1,83 @@
-// ============================================================
-// CONFIGURATION OPTIONS
-// ============================================================
+var http = require("http");
+var url = require("url");
+var path = require("path");
+var fs = require("fs");
+var os = require("os");
+var exec = require('child_process').exec;
 
-var hostName 			= "localhost";
-var port 				= 80;
-var webroot 			= "client";
-var defaultDocument 	= "default.htm";
-var isCachingAllowed 	= false;
-var isBrowserLaunched 	= true;
+var app = require("./app.js");
+var log = require("./log.js");
 
-// TODO: add other MIME content type entries as needed for your specific web site or app
-var contentTypes = 
+var config = require("./config.js")();
+
+var webRootDirPath = path.resolve(process.cwd(), ".." + path.sep + config.webRootDirName);
+
+var httpServer = http.createServer(function(request, response) 
 {
-	".htm" : "text/html",
-	".css" : "text/css",
-	".js"  : "text/javascript",
-	".png" : "image/png",
-	".jpg" : "image/jpg",
-	".gif" : "image/gif",
-	".svg" : "image/svg+xml",
-	".json": "application/json",
-	".ttf" : "font/truetype",
-	".otf" : "font/opentype",
-	".woff" : "application/x-font-woff",
-	".mp3" : "audio/mpeg",
-	".mp4" : "video/mp4"
-};
-
-// ============================================================
-
-var http = require("http")
-var url = require("url")
-var path = require("path")
-var fs = require("fs")
-var exec = require('child_process').exec
-
-var webroot = path.resolve(process.cwd(), ".." + path.sep + webroot);
-
-http.createServer(function(request, response) 
-{
-	var uri = url.parse(request.url).pathname
+	var filePath = path.join(webRootDirPath, url.parse(request.url).pathname);
 	
-	var filename = path.join(webroot, uri);
-	
-	console.log("URL requested: " + uri);
-
-	fs.exists(filename, function(exists) 
+	fs.exists(filePath, function(isValidPath) 
 	{
-		if (!exists) 
+		if (isValidPath) 
 		{
-			response.writeHead(404, {"Content-Type": "text/plain"});
-			response.write("404 Not Found\n");
-			response.end();
-			return;
-		}
-
-		if (fs.statSync(filename).isDirectory())
-		{ 
-			filename += "/" + defaultDocument;
-		}
-		
-		fs.readFile(filename, "binary", function(err, file) 
-		{
-			if (err) 
-			{        
-				response.writeHead(500, { "Content-Type":"text/plain" });
-				response.write(err + "\n");
-				response.end();
-				return;
+			if (fs.statSync(filePath).isDirectory())
+			{ 
+				filePath += config.defaultDocument;
 			}
 
-			var headers = {};
-			headers["Content-Type"] = contentTypes[path.extname(filename)] || "text/plain";
-			if (!isCachingAllowed)
+			fs.readFile(filePath, "binary", function(err, file) 
 			{
-				headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate";
-			}
-
-			response.writeHead(200, headers);
-			response.write(file, "binary");
+				if (!err) 
+				{
+					response.statusCode = 200;
+					response.setHeader("Content-Type", config.contentTypes[path.extname(filePath)] || "text/plain");
+					response.setHeader("Cache-Control", config.isCachingDisabled ? "no-cache, no-store, max-age=0, must-revalidate" : "public");
+					response.write(file, "binary");
+					response.end();
+				}
+				else
+				{   
+					response.statusCode = 500;
+					response.setHeader("Content-Type", "text/plain");
+					response.write(err, "utf-8");
+					response.end();
+				}
+			});
+		}
+		else
+		{
+			response.statusCode = 404;
 			response.end();
-		});
+		}
+
+		log("URL requested: " + request.url + " [" + response.statusCode + "]");
 	});
-}).listen(parseInt(port, 10));
+});
 
-console.log("Local web server started and listening on " + hostName + " at port " + port);
+app.init(httpServer);
 
-if (isBrowserLaunched)
+httpServer.listen(parseInt(config.httpServerPort, 10));
+
+var ipAddresses = [];
+var networkInterfaces = os.networkInterfaces();
+for (var name in networkInterfaces) 
 {
-	var launchURL = "http://" + hostName + ":" + port + "/";
+	var items = networkInterfaces[name];
+	for (var i = 0, ic = items.length; i < ic; i++)
+	{
+		var address = items[i];
+		if ((!address.internal && address.family == "IPv4") || address.address == "127.0.0.1")
+		{
+			ipAddresses.push(address.address);
+		}
+	}
+}
+
+log("Web server listening on port " + config.httpServerPort + " at the following IPv4 addresses: " + ipAddresses.join(", "));
+
+if (config.doBrowserLaunch)
+{
+	var launchURL = "http://127.0.0.1:" + config.httpServerPort + "/";
 	var execParam = ' "' + launchURL.replace(/"/, '\\\"') + '"';
 
 	switch (process.platform) 
@@ -106,5 +95,5 @@ if (isBrowserLaunched)
 			break;
 	}
 
-	console.log("Default web browser launched to " + launchURL);
+	log("Default web browser launched to " + launchURL);
 }
