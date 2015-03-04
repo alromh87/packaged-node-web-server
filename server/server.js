@@ -7,8 +7,7 @@ var exec = require('child_process').exec;
 
 var app = require("./app.js");
 var log = require("./log.js");
-
-var config = require("./config.js")();
+var config = require("./config.js");
 
 var webRootDirPath = path.resolve(process.cwd(), ".." + path.sep + config.webRootDirName);
 
