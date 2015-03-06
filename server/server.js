@@ -31,6 +31,7 @@ var httpServer = http.createServer(function(request, response)
 					response.statusCode = 200;
 					response.setHeader("Content-Type", config.contentTypes[path.extname(filePath)] || "text/plain");
 					response.setHeader("Cache-Control", config.isCachingDisabled ? "no-cache, no-store, max-age=0, must-revalidate" : "public");
+					response.setHeader("X-UA-Compatible", "IE=Edge");
 					response.write(file, "binary");
 					response.end();
 				}
