@@ -13,8 +13,18 @@ var webRootDirPath = path.resolve(process.cwd(), ".." + path.sep + config.webRoo
 
 var httpServer = http.createServer(function(request, response) 
 {
-	var filePath = path.join(webRootDirPath, url.parse(request.url).pathname);
-	
+	var filePath = path.join(webRootDirPath, decodeURI(url.parse(request.url).pathname));
+
+	const relative = path.relative(webRootDirPath, filePath);
+
+	if( relative.startsWith('..') || path.isAbsolute(relative))
+	{
+		response.statusCode = 403;
+		response.end();
+		log(`Path traversal blocked: ${request.url.substring(0,50)} [${response.statusCode}] from ${request.socket.remoteAddress}`);
+		return;
+	}
+
 	fs.exists(filePath, function(isValidPath) 
 	{
 		if (isValidPath) 
